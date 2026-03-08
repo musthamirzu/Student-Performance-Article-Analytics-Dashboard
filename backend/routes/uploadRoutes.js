@@ -1,0 +1,13 @@
+const express = require("express")
+const router = express.Router()
+const upload = require("../middleware/uploadMiddleware")
+
+router.post("/",upload.single("file"),(req,res)=>{
+
+res.json({
+fileUrl:`/uploads/${req.file.filename}`
+})
+
+})
+
+module.exports = router
