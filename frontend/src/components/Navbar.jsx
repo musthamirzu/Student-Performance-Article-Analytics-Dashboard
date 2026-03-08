@@ -10,7 +10,7 @@ const normalClass = "hover:bg-blue-500";
 
 return(
 
-<nav className="bg-blue-600 text-white shadow-md">
+<nav className="bg-indigo-600 text-white shadow-md">
 
 <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
 
@@ -20,7 +20,7 @@ return(
  Analytics Dashboard
 
 </h1>
- <span className="bg-blue-500 ml-3 px-3 py-1 rounded text-sm capitalize">
+ <span className="bg-red-500 ml-3 px-3 py-1 rounded text-sm capitalize">
 {role}
 </span>
 </div>

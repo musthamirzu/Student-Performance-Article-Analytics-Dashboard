@@ -48,99 +48,107 @@ function StudentDashboard() {
 
     return (
 
-        <div className="p-6 bg-gray-100 min-h-screen space-y-8">
+       <div className="p-8 bg-gray-100 min-h-screen space-y-10">
 
-            {/* Page Title */}
+  {/* Page Title */}
 
-            <h1 className="text-3xl font-bold">
-                Student Dashboard
-            </h1>
+  <div className="flex justify-between items-center">
+    <h1 className="text-3xl font-bold text-gray-800">
+      Student Dashboard
+    </h1>
+  </div>
 
-            {/* Analytics Cards */}
 
-            <div className="grid md:grid-cols-3 gap-6">
+  {/* Analytics Cards */}
 
-                <div className="bg-white p-5 rounded-xl shadow">
-                    <p className="text-gray-500 text-sm">Articles Read</p>
-                    <h2 className="text-2xl font-bold">{analytics.length}</h2>
-                </div>
+  <div className="grid md:grid-cols-3 gap-6">
 
-                <div className="bg-white p-5 rounded-xl shadow">
-                    <p className="text-gray-500 text-sm">Highlights</p>
-                    <h2 className="text-2xl font-bold">{highlights.length}</h2>
-                </div>
-
-                <div className="bg-white p-5 rounded-xl shadow">
-                    <p className="text-gray-500 text-sm">Categories</p>
-                    <h2 className="text-2xl font-bold">
-                        {[...new Set(analytics.map(a => a._id))].length}
-                    </h2>
-                </div>
-
-            </div>
-
-            {/* Chart Section */}
-
-            <div className="bg-white p-6 shadow rounded-xl">
-
-               <h2 className="text-xl font-semibold mb-4">
-        Time Spent Per Category
+    <div className="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition">
+      <p className="text-gray-500 text-sm">Articles Read</p>
+      <h2 className="text-3xl font-bold text-gray-800 mt-2">
+        {analytics.length}
       </h2>
+    </div>
 
-                <div className="flex justify-center">
+    <div className="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition">
+      <p className="text-gray-500 text-sm">Highlights</p>
+      <h2 className="text-3xl font-bold text-gray-800 mt-2">
+        {highlights.length}
+      </h2>
+    </div>
 
-                    
-                        <StudentPieChart/>
-                    
+    <div className="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition">
+      <p className="text-gray-500 text-sm">Categories</p>
+      <h2 className="text-3xl font-bold text-gray-800 mt-2">
+        {[...new Set(analytics.map(a => a._id))].length}
+      </h2>
+    </div>
 
-                </div>
+  </div>
 
-            </div>
 
-            {/* Highlights Section */}
+  {/* Chart Section */}
 
-            <div className="bg-white p-6 shadow rounded-xl">
+  <div className="bg-white p-6 shadow-sm border rounded-xl">
 
-                <h2 className="text-xl font-semibold mb-4">
-                    Your Highlights
-                </h2>
+    <h2 className="text-xl font-semibold text-gray-800 mb-6">
+      Time Spent Per Category
+    </h2>
 
-                {highlights.length === 0 ? (
+    <div className="flex justify-center">
+      <StudentPieChart/>
+    </div>
 
-                    <p className="text-gray-400">
-                        No highlights yet
-                    </p>
+  </div>
 
-                ) : (
 
-                    <div className="grid md:grid-cols-2 gap-4">
+  {/* Highlights Section */}
 
-                        {highlights.map((h, i) => (
+<div className="bg-white p-6 shadow-sm border rounded-xl">
 
-                            <div
-                                key={i}
-                                className="border rounded-lg p-4 hover:shadow transition"
-                            >
+  <h2 className="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-2">
+     Your Highlights
+  </h2>
 
-                                <p className="italic text-gray-700">
-                                    "{h.text}"
-                                </p>
+  {highlights.length === 0 ? (
 
-                                <p className="text-sm text-gray-500 mt-2">
-                                    Article: {h.articleId?.title}
-                                </p>
+    <p className="text-gray-400 text-center py-6">
+      No highlights yet
+    </p>
 
-                            </div>
+  ) : (
 
-                        ))}
+    <div className="grid md:grid-cols-2 gap-5">
 
-                    </div>
+      {highlights.map((h, i) => (
 
-                )}
+        <div
+          key={i}
+          className="border-l-4 border-indigo-500 rounded-lg p-5 bg-indigo-50 hover:bg-indigo-100 hover:shadow-md transition"
+        >
 
-            </div>
+          <p className="italic text-gray-700 text-sm leading-relaxed">
+            "{h.text}"
+          </p>
+
+          <p className="text-sm text-gray-600 mt-3">
+            📄 Article: 
+            <span className="font-semibold text-indigo-600 ml-1">
+              {h.articleId?.title}
+            </span>
+          </p>
 
         </div>
+
+      ))}
+
+    </div>
+
+  )}
+
+</div>
+
+</div>
 
     )
 

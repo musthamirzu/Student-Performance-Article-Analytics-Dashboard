@@ -2,80 +2,154 @@ import { useState } from "react";
 import API from "../../services/api";
 import { useNavigate } from "react-router-dom";
 
-function Register(){
+function Register() {
 
-const [name,setName] = useState("");
-const [email,setEmail] = useState("");
-const [password,setPassword] = useState("");
-const [role,setRole] = useState("student");
-const navigate = useNavigate()
-const registerUser = async(e)=>{
-e.preventDefault();
+  const [name,setName] = useState("");
+  const [email,setEmail] = useState("");
+  const [password,setPassword] = useState("");
+  const [role,setRole] = useState("student");
+  const [errors,setErrors] = useState({});
 
+  const navigate = useNavigate();
 
-await API.post("/auth/register",{
-name,
-email,
-password,
-role
-});
+  const validate = () => {
 
-alert("Registered Successfully");
-navigate("/")
-}
+    const newErrors = {};
 
-return(
+    if(!name.trim()){
+      newErrors.name = "Name is required";
+    }
 
-<div className="flex justify-center items-center h-screen bg-gray-100">
+    if(!email){
+      newErrors.email = "Email is required";
+    } 
+    else if(!/\S+@\S+\.\S+/.test(email)){
+      newErrors.email = "Invalid email format";
+    }
 
-<form
-onSubmit={registerUser}
-className="bg-white p-8 rounded shadow w-96"
->
+    if(!password){
+      newErrors.password = "Password is required";
+    }
+    else if(password.length < 6){
+      newErrors.password = "Password must be at least 6 characters";
+    }
 
-<h2 className="text-xl font-bold mb-4">
-Register
-</h2>
+    return newErrors;
+  };
 
-<input
-className="border p-2 w-full mb-3"
-placeholder="Name"
-onChange={(e)=>setName(e.target.value)}
-/>
+  const registerUser = async(e)=>{
+    e.preventDefault();
 
-<input
-className="border p-2 w-full mb-3"
-placeholder="Email"
-onChange={(e)=>setEmail(e.target.value)}
-/>
+    const validationErrors = validate();
 
-<input
-type="password"
-className="border p-2 w-full mb-3"
-placeholder="Password"
-onChange={(e)=>setPassword(e.target.value)}
-/>
+    if(Object.keys(validationErrors).length > 0){
+      setErrors(validationErrors);
+      return;
+    }
 
-<select
-className="border p-2 w-full mb-3"
-onChange={(e)=>setRole(e.target.value)}
->
+    try{
 
-<option value="student">Student</option>
-<option value="teacher">Teacher</option>
+      await API.post("/auth/register",{
+        name,
+        email,
+        password,
+        role
+      });
 
-</select>
+      alert("Registered Successfully");
+      navigate("/");
 
-<button className="bg-green-600 text-white w-full py-2 rounded">
-Register
-</button>
+    }catch(err){
+      alert(err,"Registration failed");
+    }
 
-</form>
+  }
 
-</div>
+  return (
 
-)
+    <div className="flex w-full justify-center items-center min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
 
+      <form
+        onSubmit={registerUser}
+        className="bg-white/90 backdrop-blur-lg p-10 rounded-2xl shadow-2xl w-96 transition-all duration-300 hover:scale-105"
+      >
+
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
+          Create Account
+        </h2>
+
+        {/* Name */}
+
+        <input
+          className="border border-gray-300 p-3 w-full mb-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          placeholder="Full Name"
+          value={name}
+          onChange={(e)=>setName(e.target.value)}
+        />
+
+        {errors.name && (
+          <p className="text-red-500 text-sm mb-3">{errors.name}</p>
+        )}
+
+        {/* Email */}
+
+        <input
+          className="border border-gray-300 p-3 w-full mb-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          placeholder="Email Address"
+          value={email}
+          onChange={(e)=>setEmail(e.target.value)}
+        />
+
+        {errors.email && (
+          <p className="text-red-500 text-sm mb-3">{errors.email}</p>
+        )}
+
+        {/* Password */}
+
+        <input
+          type="password"
+          className="border border-gray-300 p-3 w-full mb-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          placeholder="Password"
+          value={password}
+          onChange={(e)=>setPassword(e.target.value)}
+        />
+
+        {errors.password && (
+          <p className="text-red-500 text-sm mb-3">{errors.password}</p>
+        )}
+
+        {/* Role */}
+
+        <select
+          className="border border-gray-300 p-3 w-full mb-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          value={role}
+          onChange={(e)=>setRole(e.target.value)}
+        >
+          <option value="student">Student</option>
+          <option value="teacher">Teacher</option>
+        </select>
+
+        <button
+          className="bg-indigo-600 hover:bg-indigo-700 text-white w-full py-3 rounded-lg font-semibold transition duration-300"
+        >
+          Register
+        </button>
+
+        <p className="text-center text-sm text-gray-600 mt-4">
+          Already have an account? 
+          <span
+            className="text-indigo-600 cursor-pointer ml-1 hover:underline"
+            onClick={() => navigate("/")}
+          >
+            Login
+          </span>
+        </p>
+
+      </form>
+
+    </div>
+
+  )
 }
 
 export default Register;
