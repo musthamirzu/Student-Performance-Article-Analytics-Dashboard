@@ -27,7 +27,7 @@ docker run -p 5005:5005 musthamirzu15/student-analytics-backend
 
 
 Docker Hub Repository:
-https://hub.docker.com/r/musthamirzu15/student-analytics-backend
+https://hub.docker.com/r/musthamirzu15/student-analytics-frontend
 
 You can pull the Docker image using:
 
